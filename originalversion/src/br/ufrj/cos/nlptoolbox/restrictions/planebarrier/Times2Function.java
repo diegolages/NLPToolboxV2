@@ -1,0 +1,130 @@
+/*
+ *  Copyright (c) 2008, Diego Lages
+ *
+ *  This program is free software; you can redistribute it and/or
+ *  modify it under the terms of the GNU General Public License
+ *  as published by the Free Software Foundation; either version 2
+ *  of the License, or any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program; if not, write to the Free Software
+ *  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+ */
+
+
+package br.ufrj.cos.nlptoolbox.restrictions.planebarrier;
+
+import br.ufrj.cos.nlptoolbox.Function;
+import java.util.List;
+import org.jscience.mathematics.number.Float64;
+import org.jscience.mathematics.vector.DenseMatrix;
+import org.jscience.mathematics.vector.DenseVector;
+import org.jscience.mathematics.vector.Matrix;
+import org.jscience.mathematics.vector.SparseVector;
+import org.jscience.mathematics.vector.Vector;
+
+/**
+ *
+ * @author Diego
+ */
+public class Times2Function implements Function<Float64> {
+
+    Function<Float64> f1 = null;
+    Function<Float64> f2 = null;
+
+    public Times2Function(Function<Float64> _f1, Function<Float64> _f2) {
+        f1 = _f1;
+        f2 = _f2;
+    }
+
+    public Float64 evaluate(Vector<Float64> variables) throws Exception {
+
+        return f1.evaluate(variables).times(f2.evaluate(variables));
+
+    }
+
+
+    public Vector<Float64> gradient(Vector<Float64> variables) throws Exception {
+
+        Vector<Float64> r = SparseVector.valueOf(variables.getDimension(), Float64.ZERO, 0, Float64.ZERO);
+
+        java.util.Vector _r = new java.util.Vector();
+
+        for (int i=0;i<variables.getDimension();i++) {
+
+            Vector<Float64> g1 = f1.gradient(variables);
+            Vector<Float64> g2 = f2.gradient(variables);
+
+            Float64 f1v = f1.evaluate(variables);
+            Float64 f2v = f2.evaluate(variables);
+
+            Float64 t = f1v.times(g2.get(i)).plus(f2v.times(g1.get(i)));
+
+            _r.add(t);
+           // differentiate(funcs, variables.get(i));
+
+        }
+
+        return DenseVector.valueOf(_r);
+
+    }
+
+    public Matrix<Float64> hessian(Vector<Float64> variables) throws Exception {
+
+        Float64         f1eval     = f1.evaluate(variables);
+        Float64         f2eval     = f2.evaluate(variables);
+        
+        Matrix          f1hessian  = f1.hessian(variables);
+        Matrix          f2hessian  = f2.hessian(variables);
+        Vector<Float64> f1gradient = f1.gradient(variables);
+        Vector<Float64> f2gradient = f2.gradient(variables);
+
+
+        Float64 [][] retmat = new Float64[variables.getDimension()][variables.getDimension()];
+
+        for (int i=0;i<retmat.length;i++) {
+            for (int j=0;j<retmat.length;j++) {
+
+                
+                Float64 a2 = (Float64)f2hessian.get(i, j);
+
+                Float64 b1 = f1gradient.get(j);
+                Float64 b2 = f2gradient.get(i);
+
+                Float64 c1 = (Float64)f1hessian.get(i, j);
+                Float64 c2 = f2eval;
+
+                Float64 d1 = f1gradient.get(i);
+                Float64 d2 = f2gradient.get(j);
+
+                
+                Float64 A = f1eval.times(a2);
+                Float64 B = b1.times(b2);
+                Float64 C = c1.times(c2);
+                Float64 D = d1.times(d2);
+
+                Float64 t = A.plus(B).plus(C).plus(D);
+
+                retmat[i][j] = t;
+            }
+        }
+
+        return DenseMatrix.valueOf(retmat);
+//
+//
+//        Matrix<Float64> ret =  DenseMatrix.valueOf(retmat);
+//
+//
+//        for (Function<Float64> f : funcs) {
+//            ret = ret.plus(f.hessian(variables));
+//        }
+//
+//        return ret;
+    }
+    
+}

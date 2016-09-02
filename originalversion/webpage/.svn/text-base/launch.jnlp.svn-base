@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<jnlp codebase="" href="launch.jnlp" spec="1.0+">
+    <information>
+        <title>PNLToolbox</title>
+        <vendor>Diego</vendor>
+        <homepage href=""/>
+        <description>PNLToolbox</description>
+        <description kind="short">PNLToolbox</description>
+
+
+    <offline-allowed/>
+</information>
+<security>
+<all-permissions/>
+</security>
+    <resources>
+<j2se java-vm-args="-Djava.security.policy=applet.policy -Xms10m -Xmx128m" version="1.6+"/>
+<jar eager="true" href="NLPToolbox.jar" main="true"/>
+
+
+    <jar href="lib/geoapi.jar"/>
+<jar href="lib/javolution.jar"/>
+<jar href="lib/appframework-1.0.3.jar"/>
+<jar href="lib/swing-worker-1.1.jar"/>
+</resources>
+    <application-desc main-class="br.ufrj.cos.nlptoolbox.Main">
+
+    </application-desc>
+</jnlp>

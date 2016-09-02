@@ -1,0 +1,38 @@
+<html>
+<head>
+<title>NLPToolbox - Nonlinear Programming Toolbox</title>
+</head>
+
+<h1>NLPToolbox</h1>
+
+<p>
+Many scientific challenges depend on solving nonlinear programming problems (NLP). Despite many tools (open-source, free or commercial) being available, usually they are designed as a "black-box", making it very hard to make
+parameter tunnings, test new approaches, create and validate new derived methods.
+</p>
+
+<p>
+It is even harder to "connect" the solution of a NLP to another solution or data structure from another
+scientific problem. This lack of "connection", just like the problems listed above, could be solved using Software Engineering. The most
+common approaches to solve them are throught the creation of \textit{frameworks} and components\cite{Catalysis}.
+</p>
+
+<p>
+After searching for similar tools, libraries or components for NLP, a few were found. The ones found suffer from the problems listed, are incomplete, not open source or not well structured to be readily usable by third parties.
+</p> 
+
+<p>
+So, the NLPToolbox (Nonlinear Programming Toolbox) attempts to address all these concerns, being at the same time a tool for solving NLP and a component that can be embedded in others softwares. It can solve all kinds of NLP, constrained or not, using Newton, Quasi-Newton and Conjugate Gradient Methods. This tool is \textbf{open-source} (GPL), so anyone has full access to the source code. The GPL (GNU General Public Licence) warrants that any future changes must still be open-source. 
+</p>
+
+<p>
+It intends to be the most flexible one, so that it can be used as a component to other softwares (commercial or not) or scientific experiments, with well-defined interfaces. Moreover, it has also a graphic interface (GUI) so that NLP problems can be solved in a confortable way.
+</p>
+
+<p>
+Beyond being a component and a tool, it intends to help the learning of nonlinear optimization. By the open-source, readable source code, the most common optimization methods can be learned by seeing how they are implemented, used and can still be changed. It is possible to show the iteration sequence step by step.
+</p>
+
+<p>
+It can be run <a href="launch.jnlp"><b>HERE</b></a>, or can be downloaded <a href="NLPToolbox.zip"><b>HERE</b></a>
+</p>
+
